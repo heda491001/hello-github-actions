@@ -8,14 +8,20 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
-        name: Build
-        run: docker build -t heda491001/flask-redis:latest .
-      -
         name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       -
-        name: push to dockerhub
-        run: docker image push heda491001/flask-redis:latest
+        name: set up qemu
+        uses: docker/setup-qemu-action@v1
+      -
+        name: set up docker buildx
+        uses: docker/set-up-buildx-action@v1
+      -
+        name: available platforms
+        run: echo $ {{ steps.buildx.outputs.platforms }}    
+      -
+        name: build and push
+        run: docker buildx build --push --platform linux/arm/v7,linux/amd64,linux/arm64/v8 -t heda491001/flask-redis:latest .
