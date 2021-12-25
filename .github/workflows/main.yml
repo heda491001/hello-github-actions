@@ -11,5 +11,11 @@ jobs:
         name: Build
         run: docker build -t heda491001/flask-redis:latest .
       -
-        name: list docker image
-        run: docker image ls
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      -
+        name: push to dockerhub
+        run: docker image push heda491001/flask-redis:latest
