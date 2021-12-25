@@ -1,2 +1,14 @@
 name: A workflow for my Hello World file
 on: push  # workflow的触发条件
+jobs:
+  build:
+    name: Hello world action
+    runs-on: ubuntu-latest  # 在这样一个机器上
+    steps:
+      # 这个是github定义好的action，会去clone（或者checkout，或者说获取）我们最新的代码
+      - uses: actions/checkout@v1 
+      # 使用下边这个目录       
+      - uses: ./action-a    
+      # 又定义了一个环境变量       
+        with:
+          MY_NAME: "Mona"
